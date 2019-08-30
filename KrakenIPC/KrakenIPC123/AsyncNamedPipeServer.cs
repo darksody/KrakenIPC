@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
@@ -91,51 +90,20 @@ namespace KrakenIPC
 
             try
             {
-                var useSecurity = true;
-#if NET46
-                useSecurity = true;
-#else
-                useSecurity = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-#endif
-                //Pipe security only works on windows for now
-                if (useSecurity)
-                {
-                    //PipeSecurity pipeSecurity = new PipeSecurity();
-                    //SecurityIdentifier everyoneSID = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
-                    //PipeAccessRule accessRule = new PipeAccessRule(everyoneSID, PipeAccessRights.ReadWrite, AccessControlType.Allow);
-                    //pipeSecurity.AddAccessRule(accessRule);
-                    PipeSecurity pipeSecurity = new PipeSecurity();
+                PipeSecurity pipeSecurity = new PipeSecurity();
+                SecurityIdentifier everyoneSID = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+                PipeAccessRule accessRule = new PipeAccessRule(everyoneSID, PipeAccessRights.ReadWrite, AccessControlType.Allow);
+                pipeSecurity.AddAccessRule(accessRule);
 
-                    WindowsIdentity identity = WindowsIdentity.GetCurrent();
-                    WindowsPrincipal principal = new WindowsPrincipal(identity);
-
-                    if (principal.IsInRole(WindowsBuiltInRole.Administrator))
-                    {
-                        // Allow the Administrators group full access to the pipe.
-                        pipeSecurity.AddAccessRule(new PipeAccessRule(
-                            new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null).Translate(typeof(NTAccount)),
-                            PipeAccessRights.FullControl, AccessControlType.Allow));
-                    }
-                    else
-                    {
-                        // Allow the current user read/write access to the pipe.
-                        pipeSecurity.AddAccessRule(new PipeAccessRule(
-                            WindowsIdentity.GetCurrent().User,
-                            PipeAccessRights.ReadWrite, AccessControlType.Allow));
-                    }
-                    PipeServerStream = NamedPipeNative.CreateNamedPipe(pipeName, pipeSecurity);
-                }
-                else
-                {
-                    PipeServerStream = new NamedPipeServerStream(
-                        pipeName,
-                        PipeDirection.InOut,
-                        1,
-                        PipeTransmissionMode.Message,
-                        PipeOptions.Asynchronous,
-                        1,
-                        1);
-                }
+                PipeServerStream = new NamedPipeServerStream(
+                    pipeName,
+                    PipeDirection.InOut,
+                    1,
+                    PipeTransmissionMode.Message,
+                    PipeOptions.Asynchronous,
+                    1,
+                    1,
+                    pipeSecurity);
 
                 WaitForConnection();
                 FireConnectionChangedEvent(true);

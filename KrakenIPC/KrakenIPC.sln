@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenIPC", "KrakenIPC\KrakenIPC.csproj", "{C27D25D9-F2B0-4E81-8A7C-E64FF4F40126}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{636EBB4B-828E-4474-894F-47E91E561C1D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{F6B80104-AC7F-4A80-A069-77CF83C3D683}"
@@ -13,16 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{565E25C3-6B1F-43F7-B5EE-F5B31C3FF746}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenIPC", "KrakenIPC\KrakenIPC.csproj", "{D650ED90-9244-497A-8816-1877B9161E55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C27D25D9-F2B0-4E81-8A7C-E64FF4F40126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C27D25D9-F2B0-4E81-8A7C-E64FF4F40126}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C27D25D9-F2B0-4E81-8A7C-E64FF4F40126}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C27D25D9-F2B0-4E81-8A7C-E64FF4F40126}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6B80104-AC7F-4A80-A069-77CF83C3D683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6B80104-AC7F-4A80-A069-77CF83C3D683}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6B80104-AC7F-4A80-A069-77CF83C3D683}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,6 +31,10 @@ Global
 		{565E25C3-6B1F-43F7-B5EE-F5B31C3FF746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{565E25C3-6B1F-43F7-B5EE-F5B31C3FF746}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{565E25C3-6B1F-43F7-B5EE-F5B31C3FF746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D650ED90-9244-497A-8816-1877B9161E55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D650ED90-9244-497A-8816-1877B9161E55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D650ED90-9244-497A-8816-1877B9161E55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D650ED90-9244-497A-8816-1877B9161E55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

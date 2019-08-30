@@ -56,7 +56,7 @@
       <Name>Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\KrakenIPC\KrakenIPC.csproj">
-      <Project>{C27D25D9-F2B0-4E81-8A7C-E64FF4F40126}</Project>
+      <Project>{d650ed90-9244-497a-8816-1877b9161e55}</Project>
       <Name>KrakenIPC</Name>
     </ProjectReference>
   </ItemGroup>

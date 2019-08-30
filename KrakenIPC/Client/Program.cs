@@ -17,6 +17,7 @@ namespace Client
 
             string data = proxy.GetData(3); //returns "You entered: 3"
             Console.WriteLine(data);
+
             CompositeType composite = proxy.GetDataUsingDataContract(new CompositeType()); //composite.StringValue will be "Hello Suffix"
             Console.WriteLine(composite.StringValue);
 

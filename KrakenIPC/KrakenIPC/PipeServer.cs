@@ -1,5 +1,6 @@
 ﻿using KrakenIPC.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,15 @@ namespace KrakenIPC
                 MethodInfo invokeMethod = typeof(T).GetMethod(request.MethodName);
                 for (int i = 0; i < request.ParameterValues.Count; i++)
                 {
-                    request.ParameterValues[i] = Convert.ChangeType(request.ParameterValues[i], request.ParameterTypes[i]);
+                    var jObject = request.ParameterValues[i] as JObject;
+                    if (jObject != null)
+                    {
+                        request.ParameterValues[i] = jObject.ToObject(request.ParameterTypes[i]);
+                    }
+                    else
+                    {
+                        request.ParameterValues[i] = Convert.ChangeType(request.ParameterValues[i], request.ParameterTypes[i]);
+                    }
                 }
                 result = invokeMethod.Invoke(instance, request.ParameterValues.ToArray());
             }

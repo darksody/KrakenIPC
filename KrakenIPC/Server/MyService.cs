@@ -14,7 +14,7 @@ namespace Server
             return string.Format("You entered: {0}", value);
         }
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite, int i, string s, bool b)
+        public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
             if (composite == null)
             {

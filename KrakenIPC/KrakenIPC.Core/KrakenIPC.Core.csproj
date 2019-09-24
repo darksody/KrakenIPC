@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>krakenipccore.pfx</AssemblyOriginatorKeyFile>
+    <Version>1.4.0</Version>
+    <Authors>Cosmin Toader</Authors>
+    <Description>Provides a simple IPC over named pipes, easy to use, based on RPC.</Description>
+    <Copyright>Copyright ©  2019</Copyright>
+    <PackageLicenseUrl>https://github.com/darksody/KrakenIPC/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/darksody/KrakenIPC</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/darksody/KrakenIPC.git</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>IPC NamedPipes RPC</PackageTags>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageReleaseNotes>Ported to .net standard. Supports .net 4.6+ and .net standard 2.0</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\KrakenIPC\AsyncNamedPipe.cs" Link="AsyncNamedPipe.cs" />
+    <Compile Include="..\KrakenIPC\AsyncNamedPipeClient.cs" Link="AsyncNamedPipeClient.cs" />
+    <Compile Include="..\KrakenIPC\AsyncNamedPipeServer.cs" Link="AsyncNamedPipeServer.cs" />
+    <Compile Include="..\KrakenIPC\Models\MethodCallRequest.cs" Link="Models\MethodCallRequest.cs" />
+    <Compile Include="..\KrakenIPC\Models\MethodCallResponse.cs" Link="Models\MethodCallResponse.cs" />
+    <Compile Include="..\KrakenIPC\Models\PipeMessage.cs" Link="Models\PipeMessage.cs" />
+    <Compile Include="..\KrakenIPC\Models\ServerException.cs" Link="Models\ServerException.cs" />
+    <Compile Include="..\KrakenIPC\PipeClient.cs" Link="PipeClient.cs" />
+    <Compile Include="..\KrakenIPC\PipeServer.cs" Link="PipeServer.cs" />
+    <Compile Include="..\KrakenIPC\ProxyHelper.cs" Link="ProxyHelper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="System.IO.Pipes" Version="4.3.0" />
+    <PackageReference Include="System.IO.Pipes.AccessControl" Version="4.5.1" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

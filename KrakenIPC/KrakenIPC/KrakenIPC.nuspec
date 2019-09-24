@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/darksody/KrakenIPC</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>Added pipe-security. To be set before starting the server.</releaseNotes>
     <copyright>Copyright 2019</copyright>
     <tags>IPC NamedPipes RPC</tags>
   </metadata>

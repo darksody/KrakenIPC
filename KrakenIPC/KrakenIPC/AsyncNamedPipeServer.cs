@@ -16,6 +16,7 @@ namespace KrakenIPC
     internal class AsyncNamedPipeServer : AsyncNamedPipe
     {
         private NamedPipeServerStream PipeServerStream;
+        private PipeSecurity pipeSecurity = null;
 
         internal AsyncNamedPipeServer(string pipeName)
             : base(pipeName)
@@ -80,6 +81,11 @@ namespace KrakenIPC
                 WaitForData();
             }
         }
+        
+        internal void SetSecurity(PipeSecurity pipeSecurity)
+        {
+            this.pipeSecurity = pipeSecurity;
+        }
 
         private void CreatePipe()
         {
@@ -90,11 +96,6 @@ namespace KrakenIPC
 
             try
             {
-                PipeSecurity pipeSecurity = new PipeSecurity();
-                SecurityIdentifier everyoneSID = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
-                PipeAccessRule accessRule = new PipeAccessRule(everyoneSID, PipeAccessRights.ReadWrite, AccessControlType.Allow);
-                pipeSecurity.AddAccessRule(accessRule);
-
                 PipeServerStream = new NamedPipeServerStream(
                     pipeName,
                     PipeDirection.InOut,
@@ -102,8 +103,13 @@ namespace KrakenIPC
                     PipeTransmissionMode.Message,
                     PipeOptions.Asynchronous,
                     1,
-                    1,
-                    pipeSecurity);
+                    1);
+
+                //Note: pipeSecurity does not work on .net standard or .net core. It will be implemented in .net core 3.0
+                if (this.pipeSecurity != null)
+                {
+                    PipeServerStream.SetAccessControl(this.pipeSecurity);
+                }
 
                 WaitForConnection();
                 FireConnectionChangedEvent(true);

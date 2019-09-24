@@ -17,8 +17,7 @@ namespace KrakenIPC
 
             //build type
             var assemblyName = new AssemblyName($"IpcContract_{@interface.Name}");
-            var appDomain = Thread.GetDomain();
-            var assemblyBuilder = appDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+            var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
             var moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name);
             var typeBuilder = moduleBuilder.DefineType($"IpcProxy_{@interface.Name}", TypeAttributes.Public | TypeAttributes.Class);
             typeBuilder.AddInterfaceImplementation(@interface);
@@ -74,7 +73,7 @@ namespace KrakenIPC
                 ilGenerator.Emit(OpCodes.Ret);
             }
 
-            var generatedType = typeBuilder.CreateType();
+            var generatedType = typeBuilder.CreateTypeInfo().AsType();
             dynamic instance = Activator.CreateInstance(generatedType);
             instance.MethodHook = callbackHook;
 

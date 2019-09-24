@@ -15,7 +15,7 @@ namespace KrakenIPC
     /// </summary>
     /// <typeparam name="T">Represents the implementation of the server. Must be a class with a parameterless constructor</typeparam>
     /// <typeparam name="U">Represents the contract interface. The previous type param MUST implement this interface</typeparam>
-    public class PipeServer<T, U> where T : class, new()
+    public partial class PipeServer<T, U> where T : class, new()
     {
         private AsyncNamedPipeServer server;
         private T instance;
@@ -33,9 +33,18 @@ namespace KrakenIPC
             this.server.OnMessageReceived += Server_OnMessageReceived;
             this.server.OnPipeConnectionChanged += Server_OnPipeConnectionChanged;
             this.server.OnPipeException += Server_OnPipeException;
-            this.server.Open();
 
             this.instance = new T();
+        }
+
+        public void Start()
+        {
+            this.server.Open();
+        }
+
+        public void Stop()
+        {
+            this.server.Close();
         }
 
         private void Server_OnMessageReceived(PipeMessage e)

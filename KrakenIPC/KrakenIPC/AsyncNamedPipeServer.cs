@@ -123,7 +123,16 @@ namespace KrakenIPC
                             WindowsIdentity.GetCurrent().User,
                             PipeAccessRights.ReadWrite, AccessControlType.Allow));
                     }
-                    PipeServerStream = NamedPipeNative.CreateNamedPipe(pipeName, pipeSecurity);
+                    //PipeServerStream = NamedPipeNative.CreateNamedPipe(pipeName, pipeSecurity);
+                    PipeServerStream = new NamedPipeServerStream(
+                        pipeName,
+                        PipeDirection.InOut,
+                        1,
+                        PipeTransmissionMode.Message,
+                        PipeOptions.Asynchronous,
+                        1,
+                        1);
+                    PipeServerStream.SetAccessControl(pipeSecurity);
                 }
                 else
                 {

@@ -91,7 +91,7 @@ namespace KrakenIPC
                     {
                         throw new ServerException(result.ReturnValue.ToString());
                     }
-                    if (result.ReturnValue.ToString().StartsWith("{") == false)
+                    if (result.ReturnValue.ToString().StartsWith("{") == false && result.ReturnValue.ToString().StartsWith("[") == false)
                     {
                         //not a json, it's a primitive
                         return Convert.ChangeType(result.ReturnValue, result.ReturnType);

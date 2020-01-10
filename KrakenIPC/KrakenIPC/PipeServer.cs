@@ -47,12 +47,15 @@ namespace KrakenIPC
             this.server.Close();
         }
 
-        private void Server_OnMessageReceived(PipeMessage e)
+        private void Server_OnMessageReceived(byte[] bytes)
         {
+            var json = Encoding.ASCII.GetString(bytes);
+            PipeMessage message = JsonConvert.DeserializeObject<PipeMessage>(json);
+
             //get method call data
             //call implementation and get response
             //send response (if error goes here, need to throw something to the client. Also need to time this out on the client side)
-            var request = e.GetPayload<MethodCallRequest>();
+            var request = message.GetPayload<MethodCallRequest>();
 
             object result = null;
             try
@@ -64,6 +67,10 @@ namespace KrakenIPC
                     if (jObject != null)
                     {
                         request.ParameterValues[i] = jObject.ToObject(request.ParameterTypes[i]);
+                    }
+                    else if (request.ParameterTypes[i].BaseType == typeof(Enum))
+                    {
+                        request.ParameterValues[i] = Convert.ChangeType(request.ParameterValues[i], typeof(int));
                     }
                     else
                     {
@@ -84,7 +91,10 @@ namespace KrakenIPC
                 ReturnType = request.ReturnType,
                 ReturnValue = result
             };
-            server.Send(new PipeMessage<MethodCallResponse>(response));
+            var responseMessage = new PipeMessage<MethodCallResponse>(response);
+            var responseJson = JsonConvert.SerializeObject(responseMessage);
+            byte[] responseBytes = Encoding.ASCII.GetBytes(responseJson);
+            server.Send(responseBytes);
         }
 
         private void Server_OnPipeException(Exception ex)

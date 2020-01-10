@@ -1,6 +1,4 @@
-﻿using KrakenIPC.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
@@ -49,15 +47,13 @@ namespace KrakenIPC
             }
         }
 
-        internal override bool Send(PipeMessage message)
+        internal override bool Send(byte[] message)
         {
             if (PipeServerStream != null)
             {
                 try
                 {
-                    var json = JsonConvert.SerializeObject(message);
-                    byte[] bytes = Encoding.ASCII.GetBytes(json);
-                    PipeServerStream.Write(bytes, 0, bytes.Length);
+                    PipeServerStream.Write(message, 0, message.Length);
                     return true;
                 }
                 catch (Exception e)
@@ -150,10 +146,8 @@ namespace KrakenIPC
                             readMemoryStream = new MemoryStream();
 
                             var bytes = memoryStream.ToArray();
-                            var json = Encoding.ASCII.GetString(bytes);
-                            PipeMessage message = JsonConvert.DeserializeObject<PipeMessage>(json);
 
-                            FireOnMessageReceivedEvent(message);
+                            FireOnMessageReceivedEvent(bytes);
                         }
                     }
                     else

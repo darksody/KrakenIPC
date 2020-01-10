@@ -1,5 +1,4 @@
-﻿using KrakenIPC.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +15,7 @@ namespace KrakenIPC
 
         internal event Action<Exception> OnPipeException;
         internal event Action<bool> OnPipeConnectionChanged;
-        internal event Action<PipeMessage> OnMessageReceived;
+        internal event Action<byte[]> OnMessageReceived;
 
         protected AsyncNamedPipe(string pipeName)
         {
@@ -34,7 +33,7 @@ namespace KrakenIPC
             OnPipeConnectionChanged?.Invoke(connected);
         }
 
-        protected void FireOnMessageReceivedEvent(PipeMessage message)
+        protected void FireOnMessageReceivedEvent(byte[] message)
         {
             OnMessageReceived?.Invoke(message);
         }
@@ -52,7 +51,7 @@ namespace KrakenIPC
 
         internal abstract void Close();
 
-        internal abstract bool Send(PipeMessage message);
+        internal abstract bool Send(byte[] message);
 
         protected abstract void Start();
     }

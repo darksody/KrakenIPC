@@ -69,7 +69,10 @@ namespace KrakenIPC
                 ReturnType = returnType
             };
 
-            this.client.Send(new PipeMessage<MethodCallRequest>(request));
+            var requestMessage = new PipeMessage<MethodCallRequest>(request);
+            var json = JsonConvert.SerializeObject(requestMessage);
+            byte[] requestBytes = Encoding.ASCII.GetBytes(json);
+            this.client.Send(requestBytes);
             //eventhandler waitone
             responseEvent.Wait(TimeSpan.FromMilliseconds(receiveTimeout));
             if (responseEvent.IsSet)
@@ -94,6 +97,10 @@ namespace KrakenIPC
                     if (result.ReturnValue.ToString().StartsWith("{") == false && result.ReturnValue.ToString().StartsWith("[") == false)
                     {
                         //not a json, it's a primitive
+                        if (result.ReturnType.BaseType == typeof(Enum))
+                        {
+                            return Convert.ChangeType(result.ReturnValue, typeof(int));
+                        }
                         return Convert.ChangeType(result.ReturnValue, result.ReturnType);
                     }
                     return JsonConvert.DeserializeObject(result.ReturnValue.ToString(), returnType);
@@ -115,8 +122,10 @@ namespace KrakenIPC
             OnPipeConnectionChanged?.Invoke(state);
         }
 
-        private void Client_OnMessageReceived(PipeMessage message)
+        private void Client_OnMessageReceived(byte[] bytes)
         {
+            var json = Encoding.ASCII.GetString(bytes);
+            PipeMessage message = JsonConvert.DeserializeObject<PipeMessage>(json);
             responseMessage = message;
             responseEvent.Set();
         }

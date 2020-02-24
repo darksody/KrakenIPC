@@ -48,6 +48,7 @@ public class MyService : IMyService
 Start the server:
 ```C#
 var pipeServer = new PipeServer<MyService, IMyService>();
+pipeServer.Start();
 ```
 
 Client code to make the call:
